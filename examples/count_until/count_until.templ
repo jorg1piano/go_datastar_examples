@@ -1,0 +1,20 @@
+package count_until
+
+import "learning_datastar/templates"
+
+templ Example() {
+	@templates.Layout("Learning Datastar") {
+		<div data-signals="{count: 0, incrementTo: 1, error: ''}">
+			<h1>Slow incrementer</h1>
+			<div>Count: <span data-text="$count"></span></div>
+			<br/>
+			<label for="incrementTo">increment to:</label>
+			<input type="number" data-bind="$incrementTo" placeholder="Set Count"/>
+			<div data-show="$error != ''">
+				<p data-text="$error"></p>
+			</div>
+			<br/>
+			<button data-on-click="@put('/count-until/increment-slowly')">Increment Slowly</button>
+		</div>
+	}
+}
