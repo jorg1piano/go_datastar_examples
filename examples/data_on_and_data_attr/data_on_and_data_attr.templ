@@ -1,0 +1,78 @@
+package data_on_and_data_attr
+
+import "learning_datastar/templates"
+
+templ DataOnExample() {
+	@templates.Layout("Learning Datastar") {
+		@SimpleButtonDefinition()
+		<div
+			data-signals="{buttonLabel: 'I change when you click me'}"
+			data-persist__session
+		>
+			<p><b>data-on</b> can be used to capture any js even, even custom events.</p>
+			<p>The web components emits an event containing a random qoute.</p>
+			<p>We capture that in a signal, and pass it down again as a attribute.</p>
+			<p>
+				The signal is persisted to session storage using <b>data-persist__session</b>.
+				This have to be placed after the signal definition
+			</p>
+			<simple-button
+				data-on-button-clicked="$buttonLabel = evt?.detail?.data"
+				data-attr-label="$buttonLabel"
+			></simple-button>
+		</div>
+	}
+}
+
+// To make it easier to follow just inline this shit
+templ SimpleButtonDefinition() {
+	<script>
+	// A web component that takes a label attribute and emits a custom event "button-clicked" when clicked.
+	class SimpleButton extends HTMLElement {
+
+		static get observedAttributes() {
+			return ['label'];
+		}
+
+		constructor() {
+			super();
+			const shadow = this.attachShadow({ mode: 'open' });
+
+			this.button = document.createElement('button');
+			this.button.textContent = this.getAttribute('label') || 'Click me';
+			this.button.addEventListener('click', () => {
+				this.dispatchEvent(new CustomEvent('button-clicked', {
+					bubbles: true,
+					composed: true,
+					detail: { data: this.getRandomQuote() }
+				}));
+			});
+
+			shadow.appendChild(this.button);
+		}
+
+		attributeChangedCallback(name, oldValue, newValue) {
+			if (name === 'label' && this.button) {
+				this.button.textContent = newValue || 'Click me';
+			}
+		}
+
+		getRandomQuote() {
+			const quotes = [
+				"Each package fulfills a single purpose.",
+				"Handle errors explicitly.",
+				"Return early rather than nesting deeply.",
+				"Leave concurrency to the caller.",
+				"Before you launch a goroutine, know when it will stop.",
+				"Avoid package level state.",
+				"Simplicity matters.",
+				"Write tests to lock in the behaviour of your package’s API.",
+				"If you think it’s slow, first prove it with a benchmark."
+			];
+			return quotes[Math.floor(Math.random() * quotes.length)];
+		}
+	}
+
+	customElements.define('simple-button', SimpleButton);
+	</script>
+}

@@ -6,6 +6,7 @@ import (
 	"learning_datastar/examples/clock_raf"
 	"learning_datastar/examples/count_until"
 	"learning_datastar/examples/counter"
+	"learning_datastar/examples/data_on_and_data_attr"
 	"learning_datastar/examples/dialog"
 	"learning_datastar/examples/index"
 	"learning_datastar/util"
@@ -32,6 +33,8 @@ func main() {
 	http.HandleFunc("/chat/send", func(w http.ResponseWriter, r *http.Request) { chat.SendHandler(pubsub, w, r) })
 
 	http.HandleFunc("/clock-raf", clock_raf.PageHandler)
+
+	http.HandleFunc("/data-on-and-data-attr", data_on_and_data_attr.PageHandler)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")
