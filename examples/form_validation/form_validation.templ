@@ -1,0 +1,87 @@
+package form_validation
+
+import (
+	"fmt"
+	"learning_datastar/templates"
+)
+
+type FormSignal struct {
+	FirstName               string `json:"firstName"`
+	FirstNameInValidMessage string `json:"firstNameInValidMessage"`
+	FirstNameDirty          bool   `json:"firstNameDirty"`
+
+	LastName               string `json:"lastName"`
+	LastNameInValidMessage string `json:"lastNameInValidMessage"`
+	LastNameDirty          bool   `json:"lastNameDirty"`
+
+	Email               string `json:"email"`
+	EmailInValidMessage string `json:"emailInValidMessage"`
+	EmailDirty          bool   `json:"emailDirty"`
+
+	IsFormValid bool `json:"isFormValid"`
+}
+
+templ formValidationExample(signal FormSignal) {
+	@templates.Layout("Learning Datastar") {
+		<style>
+		.input-error {
+			color: red;
+			border: 1px solid red;
+			outline: orangered;
+		}
+		.error-message {
+			color: red;
+		}
+		</style>
+		<div
+			data-signals__ifmissing={ templ.JSONString(signal) }
+		>
+			@formField("First name", "firstName", signal.FirstNameInValidMessage)
+			@formField("Last name", "lastName", signal.LastNameInValidMessage)
+			@formField("Email", "email", signal.FirstNameInValidMessage)
+			@rickRoll("$isFormValid")
+		</div>
+	}
+}
+
+templ formField(label, field string, errorMessage string) {
+	<div class="form-control">
+		<label class="label">
+			<span class="label-text">{ label }</span>
+		</label>
+		<input
+			class={ templ.KV("error", errorMessage != "") }
+			data-bind={ field }
+			data-on-input={ fmt.Sprintf("$%sDirty = true", field) }
+			data-on-keydown__debounce.1000ms="@post('/form-validation/validate')"
+			data-on-focus="@post('/form-validation/validate')"
+			data-class={ fmt.Sprintf("{'input-error': $%sInValidMessage != ''}", field) }
+			type={ getType(field) }
+		/>
+		<div
+			data-class={ fmt.Sprintf("{'error-message': $%sInValidMessage != ''}", field) }
+			data-text={ fmt.Sprintf("$%sInValidMessage", field) }
+		></div>
+	</div>
+}
+
+func getType(field string) string {
+	if field == "email" {
+		return "email"
+	}
+	return "text"
+}
+
+templ rickRoll(signal string) {
+	<iframe
+		data-show={ signal }
+		width="560"
+		height="315"
+		src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=ipTf_15wjZ_pUxqL"
+		title="YouTube video player"
+		frameborder="0"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+		referrerpolicy="strict-origin-when-cross-origin"
+		allowfullscreen
+	></iframe>
+}
