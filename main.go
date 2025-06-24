@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"learning_datastar/examples/chat"
+	"learning_datastar/examples/clock_raf"
 	"learning_datastar/examples/count_until"
 	"learning_datastar/examples/counter"
 	"learning_datastar/examples/dialog"
@@ -29,6 +30,8 @@ func main() {
 	http.HandleFunc("/chat", chat.PageHandler)
 	http.HandleFunc("/chat/messages", func(w http.ResponseWriter, r *http.Request) { chat.MessagesHandler(pubsub, w, r) })
 	http.HandleFunc("/chat/send", func(w http.ResponseWriter, r *http.Request) { chat.SendHandler(pubsub, w, r) })
+
+	http.HandleFunc("/clock-raf", clock_raf.PageHandler)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")

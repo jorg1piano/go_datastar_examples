@@ -1,0 +1,69 @@
+package clock_raf
+
+import "learning_datastar/templates"
+
+templ ClockRafExample() {
+	@templates.Layout("Learning Datastar") {
+		<div
+			data-signals="{
+				time: '',
+				_positionStyle: 'margin: 0 auto; position: absolute; top: 50%; left: 50%; transform-origin: left;'
+			}"
+			data-on-raf="$time = Date.now();"
+			data-computed-hour="new Date($time).getHours();"
+			data-computed-minute="new Date($time).getMinutes();"
+			data-computed-second="new Date($time).getSeconds();"
+			data-computed-secondstyle="'transform: rotate('+(($second / 60) - 0.25)+'turn); background-color: #2F2F2F; width: 50%; height: 1px;' + $_positionStyle"
+			data-computed-minutestyle="'transform: rotate('+(($minute / 60) - 0.25)+'turn); background-color: #2F2F2F; width: 50%; height: 2px;' + $_positionStyle"
+			data-computed-hourstyle="'transform: rotate('+(($hour / 12) - 0.25)+'turn); background-color: black; width: 30%; height: 3px;' + $_positionStyle"
+		>
+			<h1>Clock example - data-on-raf</h1>
+			<b>R</b>equest <b>A</b>nimation <b>F</b>rame - a way to update the UI in sync with the browser's repaint cycle.
+			<p>
+				Obviously a stupid way of drawing a clock, but it showcase very nicely how you can use computed signals and data-raf
+			</p>
+			// Create the clockface
+			<div
+				style=" width: 100px; height: 100px; border-radius: 50%; position: relative; background-color: rgb(170, 170, 184);"
+				data-on-raf="$hour = new Date().getHours(); $minute = new Date().getMinutes(); $second = new Date().getSeconds() "
+			>
+				<div data-attr-style="$hourstyle"></div>
+				<div data-attr-style="$minutestyle"></div>
+				<div data-attr-style="$secondstyle"></div>
+			</div>
+			<br/>
+			// Show the current time as hh:mm:ss
+			<div data-text="$hour + ':'+ $minute + ':' + $second"></div>
+		</div>
+		@RafCodeSample()
+	}
+}
+
+templ RafCodeSample() {
+	@templates.CodeBlock([]string{
+		`<div`,
+		`	data-on-raf="$time = Date.now();"`,
+		`	data-computed-hour="new Date($time).getHours();"`,
+		`	data-computed-minute="new Date($time).getMinutes();"`,
+		`	data-computed-second="new Date($time).getSeconds();"`,
+		`	data-computed-secondstyle="'transform: rotate('+(($second / 60) - 0.25)+'turn); background-color: #2F2F2F; width: 50%; height: 1px;' + $_positionStyle"`,
+		`	data-computed-minutestyle="'transform: rotate('+(($minute / 60) - 0.25)+'turn); background-color: #2F2F2F; width: 50%; height: 2px;' + $_positionStyle"`,
+		`	data-computed-hourstyle="'transform: rotate('+(($hour / 12) - 0.25)+'turn); background-color: black; width: 30%; height: 3px;' + $_positionStyle"`,
+		`	data-signals="{`,
+		`		time: '',`,
+		`		_positionStyle: 'margin: 0 auto; position: absolute; top: 50%; left: 50%; transform-origin: left;'`,
+		`	}"`,
+		`>`,
+		`	// Create the clockface`,
+		`	<div`,
+		`		style=" width: 100px; height: 100px; border-radius: 50%; position: relative; background-color: rgb(170, 170, 184);"`,
+		`		data-on-raf="$hour = new Date().getHours(); $minute = new Date().getMinutes(); $second = new Date().getSeconds() "`,
+		`	>`,
+		`		<div data-attr-style="$hourstyle"></div>`,
+		`		<div data-attr-style="$minutestyle"></div>`,
+		`		<div data-attr-style="$secondstyle"></div>`,
+		`	</div>`,
+		`	<div data-text="$hour + ':'+ $minute + ':' + $second"></div>`,
+		`</div>`,
+	})
+}

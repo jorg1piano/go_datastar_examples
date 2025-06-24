@@ -1,9 +1,9 @@
 package templates
 
 templ CodeBlock(message []string) {
-	<div style="background-color: rgb(237, 237, 237); padding: 10px; margin-bottom: 10px; font: 14px; font-family: monospace;">
+	<pre style="background-color: rgb(237, 237, 237); padding: 10px; margin-bottom: 10px; font: 14px; font-family: monospace;">
 		for _, line := range message {
 			<div>{ line }</div>
 		}
-	</div>
+	</pre>
 }
