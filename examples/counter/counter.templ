@@ -1,0 +1,13 @@
+package counter
+
+import "learning_datastar/templates"
+
+templ Counter() {
+	@templates.Layout("Learning Datastar") {
+		<div data-signals="{count: 0}">
+			<h1>Learning datastars</h1>
+			<div data-text="$count"></div>
+			<button data-on-click="@put('/counter/increment')">Increment count</button>
+		</div>
+	}
+}
