@@ -8,6 +8,7 @@ import (
 	"learning_datastar/examples/counter"
 	"learning_datastar/examples/data_on_and_data_attr"
 	"learning_datastar/examples/dialog"
+	"learning_datastar/examples/execute_script"
 	"learning_datastar/examples/index"
 	"learning_datastar/util"
 	"net/http"
@@ -35,6 +36,9 @@ func main() {
 	http.HandleFunc("/clock-raf", clock_raf.PageHandler)
 
 	http.HandleFunc("/data-on-and-data-attr", data_on_and_data_attr.PageHandler)
+
+	http.HandleFunc("/execute-script", execute_script.PageHandler)
+	http.HandleFunc("/execute-script/start", execute_script.PostHandler)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")
