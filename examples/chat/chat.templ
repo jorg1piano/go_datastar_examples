@@ -1,0 +1,51 @@
+package chat 
+
+import "learning_datastar/templates"
+
+templ Page() {
+	@templates.Layout("Chat example") {
+		<h1>Chat example</h1>
+		<p>Open up multiple browser windows and observer the magic.</p>
+		<p>
+			We use the <b>mergeMode "append"</b> to append to the div with <b>selector #messages</b>.
+		</p>
+		<p>The signal <b>$newMessage</b> is automatically sent with the @put request</p>
+		@ExplainEvent()
+		<div data-signals="{newMessage: '', error: ''}">
+			@ChatContainer()
+			<form
+				data-on-submit="@put('/chat/send');"
+			>
+				<input data-bind="$newMessage" placeholder="Type your message here..."/>
+				<button>Send message</button>
+			</form>
+		</div>
+		<div data-show="$error != ''">
+			<div data-text="$error"></div>
+		</div>
+	}
+}
+
+templ ExplainEvent() {
+	@templates.CodeBlock([]string{
+		"event: datastar-merge-fragments",
+		"retry: 1000",
+		"data: selector #messages",
+		"data: mergeMode append",
+		"data: fragments",
+	})
+}
+
+templ ChatContainer() {
+	<div id="messages" data-on-load="@get('/chat/messages')">
+		{ children... }
+	</div>
+}
+
+templ ChatMessage(message string) {
+	<div style="border: 1px solid black; padding: 5px; margin: 5px;">
+		<span>
+			{ message }
+		</span>
+	</div>
+}

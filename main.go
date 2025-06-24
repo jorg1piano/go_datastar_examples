@@ -2,12 +2,16 @@ package main
 
 import (
 	"fmt"
+	"learning_datastar/examples/chat"
 	"learning_datastar/examples/count_until"
 	"learning_datastar/examples/counter"
 	"learning_datastar/examples/dialog"
 	"learning_datastar/examples/index"
+	"learning_datastar/util"
 	"net/http"
 )
+
+var pubsub = util.NewPubSub()
 
 func main() {
 	// Handle the routes
@@ -21,6 +25,10 @@ func main() {
 
 	http.HandleFunc("/dialog", dialog.PageHandler)
 	http.HandleFunc("/dialog/quote", dialog.GetHandler)
+
+	http.HandleFunc("/chat", chat.PageHandler)
+	http.HandleFunc("/chat/messages", func(w http.ResponseWriter, r *http.Request) { chat.MessagesHandler(pubsub, w, r) })
+	http.HandleFunc("/chat/send", func(w http.ResponseWriter, r *http.Request) { chat.SendHandler(pubsub, w, r) })
 
 	// Start the server
 	fmt.Println("Starting server on :8080")
