@@ -5,11 +5,14 @@ import (
 	"learning_datastar/examples/count_until"
 	"learning_datastar/examples/counter"
 	"learning_datastar/examples/dialog"
+	"learning_datastar/examples/index"
 	"net/http"
 )
 
 func main() {
 	// Handle the routes
+	http.HandleFunc("/", index.PageHandler)
+
 	http.HandleFunc("/counter", counter.PageHandler)
 	http.HandleFunc("/counter/increment", counter.CounterIncrementPutHandler)
 

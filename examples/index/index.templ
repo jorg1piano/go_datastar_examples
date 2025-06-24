@@ -1,0 +1,14 @@
+package index
+
+import "learning_datastar/templates"
+
+templ Page() {
+	@templates.Layout("Overview") {
+		<h1>Examples</h1>
+		<ul>
+			<li><a href="/counter">Counter</a></li>
+			<li><a href="/count-until">Count Until</a></li>
+			<li><a href="/dialog">Dialog</a></li>
+		</ul>
+	}
+}
