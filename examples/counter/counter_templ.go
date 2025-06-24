@@ -43,7 +43,7 @@ func Counter() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div data-signals=\"{count: 0}\"><h1>Learning datastars</h1><div data-text=\"$count\"></div><button data-on-click=\"@put('/counter/increment')\">Increment count</button></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div data-signals=\"{count: 0, incrementBy: 1, error: ''}\"><h1>Learning Datastar - Counter</h1><div>Count: <span data-text=\"$count\"></span></div><br><label for=\"incrementBy\">increment by:</label> <input type=\"number\" data-bind=\"$incrementBy\" placeholder=\"Set Count\"><div data-show=\"$error != ''\"><p data-text=\"$error\"></p></div><br><button data-on-click=\"@put('/counter/increment')\">Increment Count</button></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
