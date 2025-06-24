@@ -1,0 +1,16 @@
+package dialog
+
+import "learning_datastar/templates"
+
+templ Example() {
+	@templates.Layout("Learning Datastar") {
+		<div data-signals="{quote: '', error: '', _quoteDialog: null}">
+			<h1>From the zen of python</h1>
+			<dialog data-ref="_quoteDialog">
+				<p data-text="$quote"></p>
+				<button data-on-click="$_quoteDialog.close(); $quote = ''">Close</button>
+			</dialog>
+			<button data-on-click="$_quoteDialog.show(); @get('/dialog/quote')">Show Qoute</button>
+		</div>
+	}
+}
