@@ -11,6 +11,7 @@ import (
 	"learning_datastar/examples/execute_script"
 	"learning_datastar/examples/form_validation"
 	"learning_datastar/examples/index"
+	"learning_datastar/examples/key_events"
 	"learning_datastar/util"
 	"net/http"
 )
@@ -43,6 +44,9 @@ func main() {
 
 	http.HandleFunc("/form-validation", form_validation.PageHandler)
 	http.HandleFunc("/form-validation/validate", form_validation.PostHandler)
+
+	http.HandleFunc("/key-events", key_events.PageHandler)
+
 	// Start the server
 	fmt.Println("Starting server on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {

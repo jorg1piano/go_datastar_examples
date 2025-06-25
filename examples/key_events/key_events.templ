@@ -1,0 +1,24 @@
+package key_events
+
+import "learning_datastar/templates"
+
+templ keyEventsExample() {
+	@templates.Layout("Responding to keyboard events") {
+		<div data-signals="{keyPressed: ''}">
+			<h1>Responding to keyboard events</h1>
+			<div data-show="$keyPressed === ''">
+				<b>Write something....</b>
+			</div>
+			<ul data-show="$keyPressed !== ''">
+				<li>Press escape to clear the text</li>
+				<li>Press enter to trigger alert</li>
+			</ul>
+			<!-- Only the first data-on-keydown__window gets registered if we place them on the same element
+				 So either we create one big ass expression or split it out into logical chunks-->
+			<span data-on-keydown__window="$keyPressed += evt.key;"></span>
+			<span data-on-keydown__window="evt.key === 'Escape' && ($keyPressed = '');"></span>
+			<span data-on-keydown__window="evt.key === 'Enter' && alert('Enter was pressed')"></span>
+			<div data-text="$keyPressed"></div>
+		</div>
+	}
+}
