@@ -6,6 +6,7 @@ import (
 	"learning_datastar/examples/clock_raf"
 	"learning_datastar/examples/count_until"
 	"learning_datastar/examples/counter"
+	"learning_datastar/examples/data_computed"
 	"learning_datastar/examples/data_on_and_data_attr"
 	"learning_datastar/examples/dialog"
 	"learning_datastar/examples/execute_script"
@@ -46,6 +47,8 @@ func main() {
 	http.HandleFunc("/form-validation/validate", form_validation.PostHandler)
 
 	http.HandleFunc("/key-events", key_events.PageHandler)
+
+	http.HandleFunc("/data-computed", data_computed.PageHandler)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")

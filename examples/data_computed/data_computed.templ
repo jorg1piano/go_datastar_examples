@@ -1,0 +1,36 @@
+package data_computed
+
+import "learning_datastar/templates"
+
+templ Counter() {
+	@templates.Layout("Learning Datastar") {
+		<div>
+			<h1>data-computed</h1>
+			<p>Count down from 5 seconds</p>
+			<p>Count down is computed from the time on page load</p>
+			<p>countDownTime shows a UI friendly </p>
+			<h2>Signals</h2>
+			<div
+				data-signals="{now: 0, timeOnLoad: 0, countDown: 5}"
+				data-on-raf="$now = Date.now()"
+				data-on-load="$timeOnLoad = Date.now()"
+				data-computed-count-down-since-load="$countDown - (($now - $timeOnLoad) / 1000).toFixed(0)"
+				data-computed-count-down-time="Math.max(0, $countDownSinceLoad)"
+				style="display: flex; flex-direction: column; gap: 24px;"
+			>
+				<div>
+					$timeOnLoad <span data-text="$timeOnLoad"></span>
+				</div>
+				<div>
+					$now <span data-text="$now"></span>
+				</div>
+				<div>
+					$countDownSinceLoad <span data-text="$countDownSinceLoad"></span>
+				</div>
+				<div>
+					$countDownTime <span data-text="$countDownTime"></span>
+				</div>
+			</div>
+		</div>
+	}
+}
