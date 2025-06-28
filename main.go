@@ -9,6 +9,7 @@ import (
 	"learning_datastar/examples/counter"
 	"learning_datastar/examples/data_computed"
 	"learning_datastar/examples/data_on_and_data_attr"
+	"learning_datastar/examples/deriving_signals_for_server"
 	"learning_datastar/examples/dialog"
 	"learning_datastar/examples/execute_script"
 	"learning_datastar/examples/form_validation"
@@ -52,6 +53,9 @@ func main() {
 	http.HandleFunc("/data-computed", data_computed.PageHandler)
 
 	http.HandleFunc("/binding-lists", binding_lists.PageHandler)
+
+	http.HandleFunc("/computed-signals-to-server", deriving_signals_for_server.PageHandler)
+	http.HandleFunc("/computed-signals-to-server/process", deriving_signals_for_server.ProcessCounter)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")

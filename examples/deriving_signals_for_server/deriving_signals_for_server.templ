@@ -1,0 +1,56 @@
+package deriving_signals_for_server
+
+import "learning_datastar/templates"
+
+templ Example() {
+	@templates.Layout("Derive signals set on the client and send to server") {
+		<div
+			data-signals={ templ.JSONString(CounterSignal{
+				Count: 1,
+				Double: 0, // Notice these are imediatly overwritten by the computed signal
+				Triple: 0, // Notice these are imediatly overwritten by the computed signal
+				Quadruple: 0, // This is only set after the count changes once
+			}) }
+			data-computed-double="$count * 2"
+			data-computed-triple="$count * 3"
+			data-on-signal-change-count="$quadruple = $count * 4"
+		>
+			<h3>Extracting values from a signal set the client</h3>
+			<p>
+				This example demonstrates a simple use case.
+			</p>
+			<p>
+				When you bind to a signal, you can extract values from it using computed signals.
+				Consider a scenario where you bind to an event from a web component.
+			</p>
+			<p>
+				Instead of writing <i>$someValueToExtract = evt.detail.someKeyToExtract; $anotherValueToExtract = evt.detail.someOtherKeyToExtract;</i>,
+				you can simply write <i>$someValueToExtract = evt.detail;</i>. Then, define a computed
+				signal for each value you want to extract using simple expressions.
+			</p>
+			<p>
+				If you can derrive values from the signal, it is probably better to just use the declerative approach
+				and define a computed signal for each value you want to extract. That said, in many cases if you can do this,
+				it should probably just be done on the server side.
+			</p>
+			<br/>
+			<input data-bind="$count" type="number"/>
+			<div data-text="$count"></div>
+			<div data-text="$double"></div>
+			<div data-text="$triple"></div>
+			<div data-text="$quadruple"></div>
+			<br/>
+			<div data-show="$serverMessage !== ''">
+				<b>Server response:</b>
+				<span
+					data-text="$serverMessage"
+				></span>
+			</div>
+			<button
+				data-on-click="@post('/computed-signals-to-server/process')"
+			>
+				Send to server
+			</button>
+		</div>
+	}
+}
