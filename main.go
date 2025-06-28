@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"learning_datastar/examples/binding_lists"
 	"learning_datastar/examples/chat"
 	"learning_datastar/examples/clock_raf"
 	"learning_datastar/examples/count_until"
@@ -49,6 +50,8 @@ func main() {
 	http.HandleFunc("/key-events", key_events.PageHandler)
 
 	http.HandleFunc("/data-computed", data_computed.PageHandler)
+
+	http.HandleFunc("/binding-lists", binding_lists.PageHandler)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")

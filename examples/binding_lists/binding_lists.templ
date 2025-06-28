@@ -1,0 +1,48 @@
+package binding_lists
+
+import "fmt"
+import "learning_datastar/templates"
+
+type TimeOfDay string
+
+type OpeningHours struct {
+	Day   string    `json:"day"`
+	Open  TimeOfDay `json:"open"`
+	Close TimeOfDay `json:"close"`
+}
+
+type OpeningHoursSignals struct {
+	OpeningHours []OpeningHours `json:"openingHours"`
+}
+
+templ OpeningHoursExample(signals OpeningHoursSignals) {
+	@templates.Layout("Binding to lists of things") {
+		<div data-signals__ifmissing={ templ.JSONString(signals) }>
+			<ul>
+				for i, openClose := range signals.OpeningHours {
+					<li>
+						{ openClose.Day }
+						<input
+							type="time"
+							data-attr-value={ fmt.Sprintf("$openingHours[%d].open", i) }
+							data-on-input={ fmt.Sprintf("$openingHours[%d].open = evt.target.value;", i) }
+						/>
+						<input
+							type="time"
+							data-attr-value={ fmt.Sprintf("$openingHours[%d].close", i) }
+							data-on-input={ fmt.Sprintf("$openingHours[%d].close = evt.target.value;", i) }
+						/>
+					</li>
+				}
+			</ul>
+			for i := 0; i < len(signals.OpeningHours); i++ {
+				<div>
+					<span data-text={ fmt.Sprintf("$openingHours[%d].day", i) }></span>
+					<span data-text={ fmt.Sprintf("$openingHours[%d].open", i) }></span>
+					<span data-text={ fmt.Sprintf("$openingHours[%d].close", i) }></span>
+				</div>
+				<br/>
+			}
+		</div>
+	}
+}
