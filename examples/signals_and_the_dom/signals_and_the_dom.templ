@@ -1,0 +1,64 @@
+package signals_and_the_dom
+
+import (
+	"fmt"
+	"learning_datastar/templates"
+)
+
+const morphTargetIDWithoutIfMissing = "personalia-morph-target-without-if-missing"
+const morphTargetIDWithIfMissing = "personalia-morph-target-with-if-missing"
+
+templ Example(signal PersonaliaSignal) {
+	@templates.Layout("signals__ifmissing") {
+		<h1>signals__ifmissing</h1>
+		<p>
+			This example shows how to use <code>data-signals</code> and <code>data-signals__ifmissing</code>.
+			The first will replace the DOM element with the new signal, while the second will not.
+			Instead, it will merge the new signal with the existing one
+		</p>
+		<div style="display: flex;" data-signals="{'outerScope': 'Hello from the parent'}">
+			<div style="flex: 1;">
+				@DataSignals(signal, "#ffffff")
+			</div>
+			<div style="flex: 1;">
+				@DataSignalsIfMissing(signal, "#ffffff")
+			</div>
+		</div>
+	}
+}
+
+templ DataSignals(signal PersonaliaSignal, color string) {
+	<div
+		style={ fmt.Sprintf("background-color: %s;", color) }
+		id={ morphTargetIDWithoutIfMissing }
+		data-signals={ templ.JSONString(signal) }
+	>
+		<div>name: <span data-text="$name"></span></div>
+		<div>jobTitle: <span data-text="$jobTitle"></span></div>
+		<div>outerScope: <span data-text="$outerScope"></span></div>
+		<input data-bind="$name" type="text" placeholder="Name"/>
+		<input data-bind="$jobTitle" type="text" placeholder="Job title"/>
+		<p>When just using data-signals, the signal is replaced. </p>
+		<button
+			data-on-click="@post('/signals-if-missing/replace-with')"
+		>Replace DOM element (data-signals)</button>
+	</div>
+}
+
+templ DataSignalsIfMissing(signal PersonaliaSignal, color string) {
+	<div
+		style={ fmt.Sprintf("background-color: %s;", color) }
+		id={ morphTargetIDWithIfMissing }
+		data-signals__ifmissing={ templ.JSONString(signal) }
+	>
+		<div>name: <span data-text="$name"></span></div>
+		<div>jobTitle: <span data-text="$jobTitle"></span></div>
+		<div>outerScope: <span data-text="$outerScope"></span></div>
+		<input data-bind="$name" type="text" placeholder="Name"/>
+		<input data-bind="$jobTitle" type="text" placeholder="Job title"/>
+		<p>The new signals here do not override the previous. The signals found in the PersonaliaStruct is already added to the dom, so they are ignored.</p>
+		<button
+			data-on-click="@post('/signals-if-missing/replace-with-data-signals-if-missing')"
+		>Replace DOM element(data-signals__ifmissing)</button>
+	</div>
+}

@@ -15,6 +15,7 @@ import (
 	"learning_datastar/examples/form_validation"
 	"learning_datastar/examples/index"
 	"learning_datastar/examples/key_events"
+	"learning_datastar/examples/signals_and_the_dom"
 	"learning_datastar/util"
 	"net/http"
 )
@@ -56,6 +57,10 @@ func main() {
 
 	http.HandleFunc("/computed-signals-to-server", deriving_signals_for_server.PageHandler)
 	http.HandleFunc("/computed-signals-to-server/process", deriving_signals_for_server.ProcessCounter)
+
+	http.HandleFunc("/signals-if-missing", signals_and_the_dom.PageHandler)
+	http.HandleFunc("/signals-if-missing/replace-with-data-signals-if-missing", signals_and_the_dom.MorphHandlerTargetUsingIfMissing)
+	http.HandleFunc("/signals-if-missing/replace-with", signals_and_the_dom.MorphHandlerReplaceWith)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")
