@@ -1,0 +1,68 @@
+package data_persist
+
+// An example of how the expandad side menu can be persisted using vanilla JavaScript
+// without the hydration problem on the first frame.
+templ ExampleVanillaJS() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>data-persist</title>
+			<style>
+			html.nav__collapsed nav {
+				width: 100px;
+				overflow: hidden;
+			}
+			body {
+				display: flex;
+				flex-direction: row;
+			}
+			nav {
+				width: 500px;
+				height: 100vh;
+				background-color: #f4f4f4;
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				cursor: pointer;
+				transition: width 0.3s ease;
+			}
+			</style>
+			<script>
+			// Set the nav__collapsed on the html element and not directly on the nav element
+			// before onload so we get the correct initial state
+			const isCollapsed = !!JSON.parse(localStorage.getItem('sideMenuCollapsed'));
+			if (isCollapsed) {
+				document.querySelector('html').classList.add('nav__collapsed');
+			} else {
+				document.querySelector('html').classList.remove('nav__collapsed');
+			}
+
+			window.onload = () => {
+				document.querySelector('#toggleButton').addEventListener('click', () => {
+					const htmlElement = document.querySelector('html')
+				    htmlElement.classList.toggle('nav__collapsed');
+				    const isCollapsed = htmlElement.classList.contains('nav__collapsed');
+				    localStorage.setItem("sideMenuCollapsed", JSON.stringify(isCollapsed));
+				});
+			}
+			</script>
+		</head>
+		<body>
+			<nav class="sidebar">
+				<button id="toggleButton">
+					close/expand
+				</button>
+				<h3>Menu</h3>
+				<div data-on-click="alert('Menu Item 1 clicked')">Menu Item 1</div>
+				<div data-on-click="alert('Menu Item 2 clicked')">Menu Item 2</div>
+				<div data-on-click="alert('Menu Item 3 clicked')">Menu Item 3</div>
+			</nav>
+			<main class="main-content">
+				<h1>Data Persist Example</h1>
+				Refresh the pages, you will see that the sidebar remembers its state without the hydration problem.
+			</main>
+		</body>
+	</html>
+}

@@ -9,6 +9,7 @@ import (
 	"learning_datastar/examples/counter"
 	"learning_datastar/examples/data_computed"
 	"learning_datastar/examples/data_on_and_data_attr"
+	"learning_datastar/examples/data_persist"
 	"learning_datastar/examples/deriving_signals_for_server"
 	"learning_datastar/examples/dialog"
 	"learning_datastar/examples/execute_script"
@@ -61,6 +62,9 @@ func main() {
 	http.HandleFunc("/signals-if-missing", signals_and_the_dom.PageHandler)
 	http.HandleFunc("/signals-if-missing/replace-with-data-signals-if-missing", signals_and_the_dom.MorphHandlerTargetUsingIfMissing)
 	http.HandleFunc("/signals-if-missing/replace-with", signals_and_the_dom.MorphHandlerReplaceWith)
+
+	http.HandleFunc("/data-persist", data_persist.PageHandler)
+	http.HandleFunc("/data-persist-vanilla-js", data_persist.PageHandlerVanillaJS)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")

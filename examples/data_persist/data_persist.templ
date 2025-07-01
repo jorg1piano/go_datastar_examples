@@ -1,0 +1,60 @@
+package data_persist
+
+templ ExampleDataPersist() {
+	<!DOCTYPE html>
+	<html
+		lang="en"
+		data-signals__ifmissing="{'sideMenuCollapsed': true}"
+		data-persist="$sideMenuCollapsed"
+		data-class="{ 'nav__collapsed': $sideMenuCollapsed }"
+	>
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>data-persist</title>
+			<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-beta.11/bundles/datastar.js"></script>
+			<style>
+			body {
+				display: flex;
+				flex-direction: row;
+			}
+			nav {
+				width: 500px;
+				height: 100vh;
+				background-color: #f4f4f4;
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				cursor: pointer;
+				transition: width 0.3s ease;
+			}
+
+			html.nav__collapsed nav {
+				width: 100px;
+				overflow: hidden;
+			}
+			</style>
+		</head>
+		<body>
+			<nav class="sidebar">
+				<button data-on-click="$sideMenuCollapsed = !$sideMenuCollapsed">
+					<span data-show="!$sideMenuCollapsed">close</span>
+					<span data-show="$sideMenuCollapsed">expand</span>
+				</button>
+				<h3>Examples</h3>
+				<div data-on-click="alert('Menu Item 1 clicked')">Menu Item 1</div>
+				<div data-on-click="alert('Menu Item 2 clicked')">Menu Item 2</div>
+				<div data-on-click="alert('Menu Item 3 clicked')">Menu Item 3</div>
+			</nav>
+			<main class="main-content">
+				<h1>Data Persist Example</h1>
+				<div data-show="!$sideMenuCollapsed">
+					<p>Press the <b>collapse</b> button</p>
+				</div>
+				<div data-show="$sideMenuCollapsed">
+					<p>Refresh the page!</p>
+				</div>
+			</main>
+		</body>
+	</html>
+}
