@@ -16,7 +16,9 @@ import (
 	"learning_datastar/examples/form_validation"
 	"learning_datastar/examples/index"
 	"learning_datastar/examples/key_events"
+	"learning_datastar/examples/keyboard"
 	"learning_datastar/examples/signals_and_the_dom"
+
 	"learning_datastar/util"
 	"net/http"
 )
@@ -65,6 +67,8 @@ func main() {
 
 	http.HandleFunc("/data-persist", data_persist.PageHandler)
 	http.HandleFunc("/data-persist-vanilla-js", data_persist.PageHandlerVanillaJS)
+
+	http.HandleFunc("/keyboard", keyboard.Handler)
 
 	// Start the server
 	fmt.Println("Starting server on :8080")

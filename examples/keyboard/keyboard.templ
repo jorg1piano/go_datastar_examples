@@ -1,0 +1,197 @@
+package keyboard
+
+import (
+	"fmt"
+	"learning_datastar/templates"
+)
+
+templ KeyboardLayout() {
+	@templates.Layout("Typing Game") {
+		@style()
+		<script>
+        const ignoredKeys = ['shift', 'control', 'alt', 'meta', 'capslock', 'tab', 'backspace', 'enter', 'escape'];
+        const outputKey = (key) => ignoredKeys.includes(key) ? '' : key;
+        const process = (acc, key) => {
+            switch (key) {
+                case 'backspace':
+                    return acc.slice(0, -1);
+                case 'space':
+                    return acc + ' ';
+                case 'enter':
+                    return '';
+                default:
+                    return acc + outputKey(key);
+            }
+        };
+        </script>
+		<div
+			class="container"
+			data-signals="{'keydown': 'Hello', 'acc': ''}"
+			data-on-keydown__window={ fmt.Sprintf(`
+                $keydown = evt.key.toLowerCase();
+                $acc = process($acc, $keydown);
+            `) }
+		>
+			<h1 data-show="$acc == ''">Type something</h1>
+			<div data-text="$acc"></div>
+			<br/>
+			<div class="keyboard-container">
+				<div class="keyboard__row">
+					@capRaw("~", "~", "cap__square")
+					@capRaw("1", "1", "cap__square")
+					@capRaw("2", "2", "cap__square")
+					@capRaw("3", "3", "cap__square")
+					@capRaw("4", "4", "cap__square")
+					@capRaw("5", "5", "cap__square")
+					@capRaw("6", "6", "cap__square")
+					@capRaw("7", "7", "cap__square")
+					@capRaw("8", "8", "cap__square")
+					@capRaw("9", "9", "cap__square")
+					@capRaw("0", "0", "cap__square")
+					@capRaw("-", "-", "cap__square")
+					@capRaw("=", "=", "cap__square")
+					@capRaw("Backspace", "Backspace", "cap__backspace")
+				</div>
+				<div class="keyboard__row">
+					@capRaw("Tab", "Tab", "cap__tab")
+					@capRaw("q", "q", "cap__square")
+					@capRaw("w", "w", "cap__square")
+					@capRaw("e", "e", "cap__square")
+					@capRaw("r", "r", "cap__square")
+					@capRaw("t", "t", "cap__square")
+					@capRaw("y", "y", "cap__square")
+					@capRaw("u", "u", "cap__square")
+					@capRaw("i", "i", "cap__square")
+					@capRaw("o", "o", "cap__square")
+					@capRaw("p", "p", "cap__square")
+					@capRaw("[", "[", "cap__square")
+					@capRaw("]", "]", "cap__square")
+					@capRaw("\\", "\\\\", "cap__backslash")
+				</div>
+				<div class="keyboard__row">
+					@capRaw("Caps", "CapsLock", "cap__caps")
+					@capRaw("a", "a", "cap__square")
+					@capRaw("s", "s", "cap__square")
+					@capRaw("d", "d", "cap__square")
+					@capRaw("f", "f", "cap__square")
+					@capRaw("g", "g", "cap__square")
+					@capRaw("h", "h", "cap__square")
+					@capRaw("j", "j", "cap__square")
+					@capRaw("k", "k", "cap__square")
+					@capRaw("l", "l", "cap__square")
+					@capRaw(";", ";", "cap__square")
+					@capRaw("'", "'", "cap__square")
+					@capRaw("Enter", "Enter", "cap__enter")
+				</div>
+				<div class="keyboard__row">
+					@capRaw("Shift", "Shift", "cap__shift")
+					@capRaw("z", "z", "cap__square")
+					@capRaw("x", "x", "cap__square")
+					@capRaw("c", "c", "cap__square")
+					@capRaw("v", "v", "cap__square")
+					@capRaw("b", "b", "cap__square")
+					@capRaw("n", "n", "cap__square")
+					@capRaw("m", "m", "cap__square")
+					@capRaw(",", ",", "cap__square")
+					@capRaw(".", ".", "cap__square")
+					@capRaw("/", "/", "cap__square")
+					@capRaw("Shift", "Shift", "cap__largeshift")
+				</div>
+				<div class="keyboard__row">
+					@capRaw("CTRL", "Control", "cap__ctcl")
+					@capRaw("Alt", "Alt", "cap__alt")
+					@capRaw("Space", " ", "cap__space")
+					@capRaw("Alt", "Alt", "cap__alt")
+					@capRaw("CTRL", "Control", "cap__ctcl")
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ capRaw(label, key, class string) {
+	<div
+		class={ fmt.Sprintf("cap %s", class) }
+		data-class={ fmt.Sprintf("{'keydown': `%s`.toLowerCase() == $keydown}", key) }
+	>{ label }</div>
+}
+
+templ style() {
+	<style>
+        .container {
+            font-family: Arial, sans-serif;
+            color: #f0f0f0;
+            background-color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0 auto;
+        }
+        .keyboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background-color: grey;
+            padding: 20px;
+        }
+        .keyboard__row {
+            display: flex;
+        }
+        .cap {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 1.5px gray inset;
+        }
+        .cap__square {
+            aspect-ratio: 1;
+            background-color: yellowgreen;
+        }
+        .cap__backslash {
+            aspect-ratio: 2/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__tab {
+            aspect-ratio: 1.5/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__backspace {
+            aspect-ratio: 2.5/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__enter {
+            aspect-ratio: 2.5/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__caps {
+            aspect-ratio: 2/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__shift {
+            aspect-ratio: 2.5/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__largeshift {
+            aspect-ratio: 3/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__ctcl {
+            aspect-ratio: 1.5/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__alt {
+            aspect-ratio: 1.5/1;
+            background-color: rgb(160, 192, 97);
+        }
+        .cap__space {
+            flex: 1;
+            background-color: rgb(222, 118, 97);
+        }
+        .keydown {
+            background-color: rgb(113, 113, 113);
+        }
+    </style>
+}
